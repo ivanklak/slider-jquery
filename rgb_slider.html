@@ -1,0 +1,158 @@
+<html>
+  <head>
+    <title></title>
+    <link
+      href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"
+      rel="Stylesheet"
+      type="text/css"
+    />
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script
+      type="text/javascript"
+      src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"
+    ></script>
+    <style type="text/css">
+      #body {
+        align-items: center;
+        width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        /* border: 1px solid black; */
+        height: 300px;
+        padding-left: 10px;
+      }
+      #dbody {
+        display: flex;
+      }
+      .check {
+        display: flex;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        border-top: 1px solid black;
+        border-left: 1px solid black;
+        border-bottom: 1px solid black;
+        margin-left: -10px;
+        padding: 10px;
+      }
+      .color.active {
+        background-color: #5188ff;
+        color: rgb(255, 255, 255);
+      }
+
+      .bg {
+        background-color: rgb(231, 229, 229);
+        padding: 7px 15px;
+        border: 1px solid rgb(184, 184, 184);
+        border-radius: 4px;
+        margin-left: 5px;
+      }
+      .color {
+        cursor: pointer;
+      }
+      .text {
+        border: 1px solid rgb(184, 184, 184);
+        background-color: rgb(231, 229, 229);
+        padding: 7px 15px;
+        border-radius: 4px;
+      }
+      #output {
+        width: 200px;
+        height: 100px;
+        border: solid 1px #ccc;
+        border-radius: 5px;
+        margin-left: 20px;
+        text-align: left;
+        padding: 10px;
+      }
+      #redslide,
+      #greenslide,
+      #blueslide {
+        margin: 15px 0px;
+        width: 350px;
+      }
+
+      #redslide .ui-slider-range {
+        background: red;
+      }
+      #redslide .ui-slider-handle {
+        border-color: red;
+      }
+      #greenslide .ui-slider-range {
+        background: green;
+      }
+      #greenslide .ui-slider-handle {
+        border-color: green;
+      }
+      #blueslide .ui-slider-range {
+        background: blue;
+      }
+      #blueslide .ui-slider-handle {
+        border-color: blue;
+      }
+    </style>
+    <script language="javascript">
+      $(function() {
+        $(".color").click(function() {
+          $(".color").removeClass("active");
+          $(this).addClass("active");
+        });
+        $("#redslide, #greenslide, #blueslide").slider({
+          orientation: "horizontal",
+          range: "min",
+          max: 255,
+          value: 127,
+          slide: showOutput,
+          change: showOutput
+        });
+        $("#redslide").slider("value", 150);
+        $("#greenslide").slider("value", 50);
+        $("#blueslide").slider("value", 100);
+      });
+      function showOutput() {
+        var hexa = getHexaFromRGB(
+          $("#redslide").slider("value"),
+          $("#greenslide").slider("value"),
+          $("#blueslide").slider("value")
+        );
+        if ($(".bg").hasClass("active")) {
+          $("#output").css("background-color", "#" + hexa);
+        } else if ($(".text").hasClass("active")) {
+          $("#output").css("color", "#" + hexa);
+        }
+      }
+
+      function getHexaFromRGB(r, g, b) {
+        var hexa = [r.toString(16), g.toString(16), b.toString(16)];
+        $.each(hexa, function(nr, val) {
+          if (val.length === 1) {
+            hexa[nr] = "0" + val;
+          }
+        });
+        return hexa.join("").toUpperCase();
+      }
+    </script>
+  </head>
+  <body id="body">
+    <div>
+      <div class="check">
+        <div class="color text">
+          text
+        </div>
+        <div class="color bg">
+          background
+        </div>
+      </div>
+      <div id="dbody">
+        <div>
+          <div id="redslide"></div>
+          <div id="greenslide"></div>
+          <div id="blueslide"></div>
+        </div>
+        <div id="output">
+          Look If you had One shot Or one opportunity To seize everything you
+          ever wanted In one moment Would you capture it Or just let it slip?
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
